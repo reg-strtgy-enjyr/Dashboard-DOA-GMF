@@ -1,0 +1,108 @@
+<app-navbar></app-navbar>
+<div class="min-h-screen mt-20 md:mt-10 flex items-center justify-center">
+  <div class="mx-auto w-11/12 my-8 bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="p-6">
+      <h2 class="text-2xl font-bold text-gray-900 text-center justify-center mb-3 uppercase py-3">Search Personnel</h2>
+      <form class="w-full mx-auto" (ngSubmit)="search()">  
+        <div class="relative flex items-center">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+              </svg>
+            </div>
+            <input type="search" id="default-search" [(ngModel)]="searchTerm" name="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" placeholder="Search by name, personnel number, or email" required />
+            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-[#016299] hover:bg-[#015581] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="role === 'Admin' || role === 'AO'" class="mt-5">
+        <button (click)="navigateAdd()" class="inline-block bg-[#016299] rounded-lg border-2 border-primary px-4 pb-[6px] pt-2 text-s font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-accent-300 hover:bg-primary-50/50 hover:text-primary-accent-300 focus:border-primary-600 focus:bg-primary-50/50 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 motion-reduce:transition-none dark:text-primary-500 dark:hover:bg-blue-950 dark:focus:bg-blue-950 text-white">
+          <i class="fa-solid fa-plus pr-2"></i>Add Personnel
+        </button>
+      </div>
+      <div class="show-table mt-5 border border-gray-500">
+        <div class="table-responsive overflow-auto "style="max-height: 600px; min-height: 200px;">
+          <table class="table w-full bg-white overflow-y-scroll" id="data-table">
+            <thead class="bg-blue-100 font-medium">
+              <tr class="border-b border-gray-500">
+                <th id="personnelNo" class="px-4 py-2 border-r border-gray-500">Personnel Number</th>
+                <th id="name" class="px-4 py-2 border-r border-gray-500">Name</th>
+                <th id="department" class="px-4 py-2 border-r border-gray-500">Department</th>
+                <th id="title" class="px-4 py-2 border-r border-gray-500">Current Title(s)</th>
+                <th id="email" class="px-4 py-2 border-r border-gray-500">Email Address</th>
+                <th id="employment" class="px-4 py-2">Employment Date</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="!isInitialized">
+              <tr class="border-b border-gray-500">
+                <td colspan="6" class="px-4 py-2">
+                  <div class="flex place-items-center">
+                    <div class="py-4 w-full text-center">
+                      <i class="animate-spin text-gray-300 fa-solid fa-circle-notch" style="font-size: 36px;"></i>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="isInitialized">
+              <tr *ngFor="let item of items" class="border-b border-gray-500">
+                <td class="px-4 py-2 border-r border-gray-500">
+                  <a href="/detailPersonnel" (click)="navigateDetail(item.person_id)" class="text-cyan-600 underline decoration-inherit hover:text-cyan-800">{{ item.person_no }}</a>
+                </td>
+                <td class="px-4 py-2 border-r border-gray-500">{{ item.person_name }}</td>
+                <td class="px-4 py-2 border-r border-gray-500">{{ item.department }}</td>
+                <td class="px-4 py-2 border-r border-gray-500">{{ item.job_title }}</td>
+                <td class="px-4 py-2 border-r border-gray-500">{{ item.email_address }}</td>
+                <td class="px-4 py-2">{{ item.employment_date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="flex mt-4 justify-center">
+        <details id="export_excel_result" class="w-fit open">
+          <summary (click)="exportToExcel('export-table')" class="inline-block text-white justify-center bg-[#107c41] hover:bg-[#185c37] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-4 py-2 motion-reduce:transition-none cursor-pointer">
+            <i class="fas fa-file-excel text-white mr-2"></i>Export to Excel
+          </summary>
+
+          <div class="hidden bg-white outline outline-1 outline-gray-700 rounded-lg w-fit max-w-[80%] h-fit my-auto mx-auto fixed inset-0 text-gray-600 p-16">
+            <div class="show-table mt-5 border border-gray-500">
+              <div class="table-responsive overflow-auto" style="max-height: 600px; min-height: 200px;">
+                <table class="table w-full bg-white overflow-y-scroll text-sm" id="export-table">
+                  <thead class="bg-blue-100 font-medium">
+                    <tr class="border-b border-gray-500">
+                      <th id="personnelNo" class="px-4 py-2 border-r border-gray-500">Personnel Number</th>
+                      <th id="name" class="px-4 py-2 border-r border-gray-500">Name</th>
+                      <th id="title" class="px-4 py-2 border-r border-gray-500">Current Title(s)</th>
+                      <th id="department" class="px-4 py-2 border-r border-gray-500">Department</th>
+                      <th id="birth" class="px-4 py-2 border-r border-gray-500">Birth Date</th>
+                      <th id="employment" class="px-4 py-2">Employment Date</th>
+                      <th id="email" class="px-4 py-2 border-r border-gray-500">Email Address</th>
+                      <th id="job_desc" class="px-4 py-2 border-r border-gray-500">Job Description</th>
+                      <th id="design_exp" class="px-4 py-2">Design Experience</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of items" class="border-b border-gray-500">
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.person_no }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.person_name }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.job_title }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.department }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.birth_date }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.employment_date }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.email_address }}</td>
+                      <td class="px-4 py-2 border-r border-gray-500">{{ item.job_desc }}</td>
+                      <td class="px-4 py-2">{{ item.design_exp }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
