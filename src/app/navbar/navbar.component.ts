@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    axios.post(`http://34.132.47.129:4040/account/logout`)
+    axios.post(`https://34.132.47.129/account/logout`)
       .then(response => {
         this.authService.removeToken();
         this.role = null;

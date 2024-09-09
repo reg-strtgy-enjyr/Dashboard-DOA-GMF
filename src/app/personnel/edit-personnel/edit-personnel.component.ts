@@ -74,7 +74,7 @@ export class EditPersonnelComponent implements OnInit {
 
   async fetchPersonnel() {
     try {
-      const response = await axios.post('http://34.132.47.129:4040/personnel/show', 
+      const response = await axios.post('https://34.132.47.129/personnel/show', 
         { person_id: this.currentPersonId }
       );
       this.personnelData = {
@@ -102,7 +102,7 @@ export class EditPersonnelComponent implements OnInit {
     this.personnelData.employment_date = new Date(this.personnelData.employment_date);
     const generatingToastElement = this.toastService.generatingToast('Updating personnel...');
     try {
-      const response = await axios.put('http://34.132.47.129:4040/personnel/update', this.personnelData);
+      const response = await axios.put('https://34.132.47.129/personnel/update', this.personnelData);
       if (response.data.status === 200) {
         this.toastService.successToast('Personnel updated successfully');
         window.location.href = '/detailPersonnel';
