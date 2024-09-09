@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import axios from 'axios';
@@ -123,11 +123,7 @@ enum TrainingCategory {
 })
 
 export class DetailPersonnelComponent implements OnInit {
-  constructor(
-    private toastService: ToastService, 
-    private authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  constructor(private toastService: ToastService, private authService: AuthService) { }
 
   personnel: Personnel = {
     person_id: '',
@@ -194,11 +190,9 @@ export class DetailPersonnelComponent implements OnInit {
       const { role } = jwtDecode<JwtPayload>(token);
       this.role = role;
     }
-    if (isPlatformBrowser(this.platformId)) {
-      const person_id = sessionStorage.getItem('person_id');
-      if (person_id) {
-        this.currentPersonId = person_id;
-      }
+    const person_id = sessionStorage.getItem('person_id');
+    if (person_id) {
+      this.currentPersonId = person_id;
     }
     this.fetchPersonnel();
   }

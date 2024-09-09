@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ToastService } from '../../toast.service';
 import axios from 'axios';
+
 
 interface NCRInitData {
   ncr_init_id: string,
@@ -58,10 +59,7 @@ interface ResultNCR {
   styleUrl: './result-ncr.component.css'
 })
 export class ResultNCRComponent implements OnInit {
-  constructor(
-    private toastService: ToastService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  constructor(private toastService: ToastService) { }
   currentNCRInitId = '';
   resultNCRData: ResultNCR = {
     ncr_init_id: '',
@@ -107,13 +105,11 @@ export class ResultNCRComponent implements OnInit {
   };
 
   ngOnInit() { 
-    if (isPlatformBrowser(this.platformId)) {
-      const ncr_init_id = sessionStorage.getItem('ncr_init_id');
-      if (ncr_init_id) {
-        this.currentNCRInitId = ncr_init_id;
-      }
-      this.fetchNCR();
+    const ncr_init_id = sessionStorage.getItem('ncr_init_id');
+    if (ncr_init_id) {
+      this.currentNCRInitId = ncr_init_id;
     }
+    this.fetchNCR();
   }
 
   async fetchNCR() {

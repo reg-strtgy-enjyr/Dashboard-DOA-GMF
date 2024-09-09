@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ToastService } from '../../toast.service';
 import axios from 'axios';
 
@@ -31,10 +31,7 @@ interface ResultNCR {
   styleUrl: './edit-result-ncr.component.css'
 })
 export class EditResultNCRComponent implements OnInit {
-  constructor(
-    private toastService: ToastService, 
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  constructor(private toastService: ToastService) { }
   currentResultId = '';
   resultNCRData: ResultNCR = {
     ncr_init_id: '',
@@ -54,11 +51,9 @@ export class EditResultNCRComponent implements OnInit {
   }
 
   ngOnInit() { 
-    if (isPlatformBrowser(this.platformId)) {
-      const id_ncr_result = sessionStorage.getItem('id_ncr_result');
-      if (id_ncr_result) {
-        this.currentResultId = id_ncr_result;
-      }
+    const id_ncr_result = sessionStorage.getItem('id_ncr_result');
+    if (id_ncr_result) {
+      this.currentResultId = id_ncr_result;
     }
   }
 

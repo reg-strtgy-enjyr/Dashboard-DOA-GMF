@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import axios from 'axios';
@@ -39,11 +39,7 @@ interface Personnel {
 })
 
 export class EditPersonnelComponent implements OnInit {
-  constructor(
-    private toastService: ToastService, 
-    private authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  constructor(private toastService: ToastService, private authService: AuthService) { }
   personnelData: Personnel = {
     person_id: '',
     person_name: '',
@@ -69,11 +65,9 @@ export class EditPersonnelComponent implements OnInit {
       this.toastService.failedToast('Unauthorized to access page');
       window.location.href ='/detailPersonnel';
     }
-    if (isPlatformBrowser(this.platformId)) {
-      const person_id = sessionStorage.getItem('person_id');
-      if (person_id) {
-        this.currentPersonId = person_id;
-      }
+    const person_id = sessionStorage.getItem('person_id');
+    if (person_id) {
+      this.currentPersonId = person_id;
     }
     this.fetchPersonnel();
   }

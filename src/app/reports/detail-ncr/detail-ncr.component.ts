@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { AuthService } from '../../auth.service';
@@ -121,11 +121,7 @@ interface ResultNCR {
 })
 
 export class DetailNCRComponent implements OnInit{
-  constructor(
-    private toastService: ToastService, 
-    private authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  constructor(private toastService: ToastService, private authService: AuthService) { }
 
   ncrData: NCRInitial = {
     accountid: '',
@@ -168,11 +164,9 @@ export class DetailNCRComponent implements OnInit{
       console.log('Retrieved role:', this.role);
     }
 
-    if (isPlatformBrowser(this.platformId)) {
-      const ncr_init_id = sessionStorage.getItem('ncr_init_id');
-      if (ncr_init_id) {
-        this.currentNCRInitID = ncr_init_id;
-      }
+    const ncr_init_id = sessionStorage.getItem('ncr_init_id');
+    if (ncr_init_id) {
+      this.currentNCRInitID = ncr_init_id;
     }
     this.fetchNCR();
     this.fetchReplyNCR();
@@ -295,10 +289,8 @@ export class DetailNCRComponent implements OnInit{
   }
 
   navigateEditReply(id_ncr_reply: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('id_ncr_reply', id_ncr_reply);
-      window.location.href = '/editReplyNCR';
-    }
+    sessionStorage.setItem('id_ncr_reply', id_ncr_reply);
+    window.location.href = '/editReplyNCR';
   }
 
   navigateAddResult() {
@@ -306,10 +298,8 @@ export class DetailNCRComponent implements OnInit{
   }
 
   navigateEditResult(id_ncr_result: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('id_ncr_result', id_ncr_result);
-      window.location.href = '/editResultNCR';
-    }
+    sessionStorage.setItem('id_ncr_result', id_ncr_result);
+    window.location.href = '/editResultNCR';
   }
 
   convertEnumValue(enumObj: any, value: string): string {

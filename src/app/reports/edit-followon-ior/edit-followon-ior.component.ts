@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ToastService } from '../../toast.service';
 import { AuthService } from '../../auth.service';
 import axios from 'axios';
@@ -29,11 +29,7 @@ interface FollowonIOR {
   styleUrl: './edit-followon-ior.component.css'
 })
 export class EditFollowonIORComponent implements OnInit{
-  constructor(
-    private toastService: ToastService, 
-    private authService: AuthService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  constructor(private toastService: ToastService, private authService: AuthService) { }
   currentFollowonIorID = '';
   followonData: FollowonIOR = {
     id_IOR: '',
@@ -50,15 +46,13 @@ export class EditFollowonIORComponent implements OnInit{
   };
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const id_follup_ior = sessionStorage.getItem('id_follup_ior');
-      if (id_follup_ior) {
-        this.currentFollowonIorID = id_follup_ior;
-        console.log('Retrieved id_follup_ior:', id_follup_ior);
-        this.fetchFollowupIOR();
-      } else {
-        window.location.href = '/searchFollowupIOR';
-      }
+    const id_follup_ior = sessionStorage.getItem('id_follup_ior');
+    if (id_follup_ior) {
+      this.currentFollowonIorID = id_follup_ior;
+      console.log('Retrieved id_follup_ior:', id_follup_ior);
+      this.fetchFollowupIOR();
+    } else {
+      window.location.href = '/searchFollowupIOR';
     }
   }
 
@@ -85,9 +79,7 @@ export class EditFollowonIORComponent implements OnInit{
       if (response.data.status === 200) {
         this.toastService.successToast('IOR Follow On updated successfully');
         console.log('IOR Follow On updated successfully');
-        if (isPlatformBrowser(this.platformId)) {
-          sessionStorage.removeItem('id_follup_ior');
-        }
+        sessionStorage.removeItem('id_follup_ior');
         window.location.href = '/searchFollowonIOR';
       } else {
         this.toastService.failedToast('Failed to update IOR Follow On');

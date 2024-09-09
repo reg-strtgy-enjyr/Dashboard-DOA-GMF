@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { AuthService } from '../../auth.service';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { FormsModule } from '@angular/forms'; // Ensure FormsModule is imported
@@ -82,7 +83,7 @@ interface Filters {
   styleUrls: ['./search-ior.component.css']
 })
 export class SearchIORComponent implements OnInit {
-  constructor(private authService: AuthService, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private authService: AuthService) { }
 
   items: Occurence[] = [];
   searchTerm: string = '';
@@ -169,24 +170,18 @@ export class SearchIORComponent implements OnInit {
   }
 
   navigateEdit(id_ior: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('id_ior', id_ior);
-      window.location.href = '/editIOR';
-    }
+    sessionStorage.setItem('id_ior', id_ior);
+    window.location.href = '/editIOR';
   }
 
   navigateDetail(id_ior: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('id_ior', id_ior);
-      window.location.href = '/detailIOR';
-    }
+    sessionStorage.setItem('id_ior', id_ior);
+    window.location.href = '/detailIOR';
   }
 
   navigateFollowon(id_ior: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('id_ior', id_ior);
-      window.location.href = '/searchFollowonIOR';
-    }
+    sessionStorage.setItem('id_ior', id_ior);
+    window.location.href = '/searchFollowonIOR';
   }
 
   convertEnumValue(enumObj: any, value: string): string {
