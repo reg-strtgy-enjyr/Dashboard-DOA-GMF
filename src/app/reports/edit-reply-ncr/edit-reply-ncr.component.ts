@@ -1,20 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ToastService } from '../../toast.service';
 import { AuthService } from '../../auth.service';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-
-interface JwtPayload {
-  email: string,
-  userId: string,
-  role: string,
-  iat: number,
-  exp: number
-}
 
 interface ReplyNCR {
   ncr_init_id: string,
@@ -36,7 +27,11 @@ interface ReplyNCR {
   styleUrl: './edit-reply-ncr.component.css'
 })
 export class EditReplyNCRComponent implements OnInit {
-  constructor(private toastService: ToastService, private authService: AuthService) { }
+  constructor(
+    private toastService: ToastService, 
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
   currentReplyID = '';
   replyNCRData: ReplyNCR = {
     ncr_init_id: '',
@@ -51,9 +46,11 @@ export class EditReplyNCRComponent implements OnInit {
   }
 
   ngOnInit() { 
-    const id_ncr_reply = sessionStorage.getItem('id_ncr_reply');
-    if (id_ncr_reply) {
-      this.currentReplyID = id_ncr_reply;
+    if (isPlatformBrowser(this.platformId)) {
+      const id_ncr_reply = sessionStorage.getItem('id_ncr_reply');
+      if (id_ncr_reply) {
+        this.currentReplyID = id_ncr_reply;
+      }
     }
     this.fetchReply();
   }

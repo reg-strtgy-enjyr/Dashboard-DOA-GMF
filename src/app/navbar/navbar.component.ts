@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { ToastService } from '../toast.service';
@@ -22,7 +22,12 @@ interface JwtPayload {
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  constructor(private router: Router, private toastService: ToastService, private authService: AuthService) { }
+  constructor(
+    private router: Router, 
+    private toastService: ToastService, 
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   accountId: string | null = null;
   role: string | null = null;
@@ -67,7 +72,9 @@ export class NavbarComponent implements OnInit {
         window.location.href != 'http://localhost:4200/addFollowonIOR' &&
         window.location.href != 'http://localhost:4200/editFollowonIOR'
       ) {
-      sessionStorage.removeItem('id_ior');
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.removeItem('id_ior');
+      }
     }
     if (window.location.href != 'http://localhost:4200/editFollowonIOR') {
       sessionStorage.removeItem('id_follup_ior');
@@ -79,18 +86,26 @@ export class NavbarComponent implements OnInit {
         window.location.href != 'http://localhost:4200/addResultNCR' &&
         window.location.href != 'http://localhost:4200/editResultNCR'
       ) {
-      sessionStorage.removeItem('ncr_init_id');
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.removeItem('ncr_init_id');
+      }
     }
     if (window.location.href != 'http://localhost:4200/editReplyNCR') {
-      sessionStorage.removeItem('id_ncr_reply');
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.removeItem('id_ncr_reply');
+      }
     }
     if (window.location.href != 'http://localhost:4200/editResultNCR') {
-      sessionStorage.removeItem('id_ncr_result');
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.removeItem('id_ncr_result');
+      }
     }
     if (window.location.href != 'http://localhost:4200/detailPersonnel' && 
         window.location.href != 'http://localhost:4200/editPersonnel'
       ) {
-      sessionStorage.removeItem('person_id');
+      if (isPlatformBrowser(this.platformId)) {
+        sessionStorage.removeItem('person_id');
+      }
     }
   }
 }

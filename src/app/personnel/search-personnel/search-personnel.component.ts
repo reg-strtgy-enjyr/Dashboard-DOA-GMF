@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import axios from 'axios';
@@ -70,7 +70,10 @@ enum OfficeCode {
 })
 
 export class SearchPersonnelComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   items: Personnel[] = [];
   searchTerm: string = ''; // Define searchTerm here
@@ -140,22 +143,6 @@ export class SearchPersonnelComponent implements OnInit {
     XLSX.writeFile(wb, fileName);
   }
 
-  async navigatePreview(documentId: string) {
-    try {
-      sessionStorage.setItem('document_id', documentId);
-      console.log(documentId);
-      const response = await axios.post('http://localhost:3000/getPDFDrive', { documentId });
-      console.log(response.data.message);
-      if (response.data.status === 200) {
-        window.location.href = response.data.message;
-      } else {
-        console.error('Error Message:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-
   search() {
     this.fetchDataBySearchTerm();
   }
@@ -165,7 +152,9 @@ export class SearchPersonnelComponent implements OnInit {
   }
 
   navigateDetail(person_id: string) {
-    sessionStorage.setItem('person_id', person_id);
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('person_id', person_id);
+    }
   }
 
   convertEnumValue(enumObj: any, value: string): string {

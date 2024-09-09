@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import axios from 'axios';
 
 @Injectable({
@@ -6,23 +7,29 @@ import axios from 'axios';
 })
 
 export class AuthService {
-  constructor() { 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
     this.initializeInterceptor();
   }
 
   // Store authentication token
   setToken(token: string): void {
-    sessionStorage.setItem('token', token);
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('token', token);
+    }
   }
 
   // Get authentication token
   getToken(): string | null {
-    return sessionStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return sessionStorage.getItem('token');
+    }
   }
 
   // Remove authentication token
   removeToken(): void {
-    sessionStorage.removeItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.removeItem('token');
+    }
   }
 
   initializeInterceptor() {

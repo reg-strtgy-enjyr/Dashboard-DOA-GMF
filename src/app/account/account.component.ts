@@ -7,7 +7,6 @@ import { ToastService } from '../toast.service';
 import { AuthService } from '../auth.service';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import { throws } from 'assert';
 
 interface JwtPayload {
   email: string,

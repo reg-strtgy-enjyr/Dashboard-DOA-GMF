@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ToastService } from '../../toast.service';
 import { AuthService } from '../../auth.service';
 import axios from 'axios';
@@ -39,7 +39,11 @@ interface FollowUpIOR {
 })
 
 export class FollowonIORComponent {
-  constructor(private toastService: ToastService, private authService: AuthService) { }
+  constructor(
+    private toastService: ToastService, 
+    private authService: AuthService, 
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   followIORData: FollowUpIOR = {
     id_IOR: '',
@@ -69,9 +73,11 @@ export class FollowonIORComponent {
       this.getAccountInfo();
     }
 
-    const id_ior = sessionStorage.getItem('id_ior');
-    if (id_ior) {
-      this.followIORData.id_IOR = id_ior;
+    if (isPlatformBrowser(this.platformId)) {
+      const id_ior = sessionStorage.getItem('id_ior');
+      if (id_ior) {
+        this.followIORData.id_IOR = id_ior;
+      }
     }
   }
 

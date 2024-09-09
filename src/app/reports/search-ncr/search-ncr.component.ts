@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { FooterComponent } from "../../footer/footer.component";
 import { AuthService } from '../../auth.service';
@@ -85,7 +85,7 @@ interface Filters {
   styleUrls: ['./search-ncr.component.css']
 })
 export class SearchNCRComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   items: NCRInitial[] = [];
   searchTerm = '';
@@ -182,12 +182,16 @@ export class SearchNCRComponent implements OnInit {
   }
 
   navigateEdit(ncr_init_id: string) {
-    sessionStorage.setItem('ncr_init_id', ncr_init_id);
-    window.location.href = '/editNCR';
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('ncr_init_id', ncr_init_id);
+      window.location.href = '/editNCR';
+    }
   }
 
   navigateDetail(ncr_init_id: string) {
-    sessionStorage.setItem('ncr_init_id', ncr_init_id);
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('ncr_init_id', ncr_init_id);
+    }
   }
 
   search() {
@@ -196,12 +200,6 @@ export class SearchNCRComponent implements OnInit {
 
   toggleFilter() {
     this.showFilters = !this.showFilters;
-  }
-
-  // Add this method to handle view details functionality
-  viewDetails(documentId: string) {
-    sessionStorage.setItem('document_id', documentId);
-    window.location.href = 'details-NCR.html'; // Change this to the actual path where details are displayed
   }
 
   convertEnumValue(enumObj: any, value: string): string {
