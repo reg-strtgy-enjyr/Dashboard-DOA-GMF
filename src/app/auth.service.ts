@@ -23,6 +23,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       return sessionStorage.getItem('token');
     }
+    return null;
   }
 
   // Remove authentication token
