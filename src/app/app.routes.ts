@@ -14,7 +14,6 @@ import { EditNCRComponent } from './reports/edit-ncr/edit-ncr.component';
 import { EditIORComponent } from './reports/edit-ior/edit-ior.component';
 import { EditFollowonIORComponent } from './reports/edit-followon-ior/edit-followon-ior.component';
 import { ReplyNCRComponent } from './reports/reply-ncr/reply-ncr.component';
-import { ShowReplyNCRComponent } from './reports/show-reply-ncr/show-reply-ncr.component';
 import { EditReplyNCRComponent } from './reports/edit-reply-ncr/edit-reply-ncr.component';
 import { DetailNCRComponent } from './reports/detail-ncr/detail-ncr.component';
 import { DetailIORComponent } from './reports/detail-ior/detail-ior.component';
@@ -38,15 +37,14 @@ export const routes: Routes = [
     { path: 'detailNCR', component: DetailNCRComponent },
     { path: 'editNCR', component: EditNCRComponent },
     { path: 'addReplyNCR', component: ReplyNCRComponent },
-    { path: 'showReplyNCR', component: ShowReplyNCRComponent },
     { path: 'editReplyNCR', component: EditReplyNCRComponent },
     { path: 'addResultNCR', component: ResultNCRComponent },
     { path: 'editResultNCR', component: EditResultNCRComponent },
     { path: 'formIOR', component: FormIORComponent },
     { path: 'searchIOR', component: SearchIORComponent },
     { path: 'detailIOR', component: DetailIORComponent},
-    { path: 'addFollowonIOR', component: FollowonIORComponent },
     { path: 'editIOR', component: EditIORComponent },
+    { path: 'addFollowonIOR', component: FollowonIORComponent },
     { path: 'editFollowonIOR', component: EditFollowonIORComponent },
     // Personnel routes
     { path: 'searchPersonnel', component: SearchPersonnelComponent },

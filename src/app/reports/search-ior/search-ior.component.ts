@@ -121,7 +121,7 @@ export class SearchIORComponent implements OnInit {
 
   async fetchDataFromServer() {
     try {
-      const response = await axios.get('http://localhost:4040/ior/show-all');
+      const response = await axios.get('http://34.132.47.129:4040/ior/show-all');
       if (response.data.status === 200) {
         this.items = response.data.result;
         for (let i = 0; i < this.items.length; i++) {
@@ -143,7 +143,7 @@ export class SearchIORComponent implements OnInit {
 
   async fetchDataBySearchTerm() {
     try {
-      const response = await axios.post('http://localhost:4040/ior/search', { input: this.searchTerm });
+      const response = await axios.post('http://34.132.47.129:4040/ior/search', { input: this.searchTerm });
       if (response.data.status === 200) {
         this.items = response.data.showProduct;
       } else {
@@ -167,22 +167,6 @@ export class SearchIORComponent implements OnInit {
     const fileName = `IOR_${formattedDate}.xlsx`;
   
     XLSX.writeFile(wb, fileName);
-  }
-
-  async navigatePreview(documentId: string) {
-    try {
-      sessionStorage.setItem('document_id', documentId);
-      console.log(documentId);
-      const response = await axios.post('http://localhost:4040/getPDFDrive', {documentId});
-      console.log(response.data.message);
-      if (response.data.status === 200) {
-        window.location.href = response.data.message;
-      } else {
-        console.error('Error Message:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
   }
 
   navigateEdit(id_ior: string) {
