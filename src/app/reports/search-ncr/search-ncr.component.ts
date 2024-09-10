@@ -111,7 +111,7 @@ export class SearchNCRComponent implements OnInit {
 
   async fetchDataFromServer() {
     try {
-      const response = await axios.get('https://34.132.47.129/ncr/show-all');
+      const response = await axios.get('http://34.87.6.132:4040/ncr/show-all');
       if (response.data.status === 200) {
         this.items = response.data.ncrs;
         for (let i = 0; this.items.length; i++) {
@@ -138,7 +138,7 @@ export class SearchNCRComponent implements OnInit {
   async fetchDataBySearchTerm() {
     this.isInitialized = false;
     try {
-      const response = await axios.post('https://34.132.47.129/ncr/search', {
+      const response = await axios.post('http://34.87.6.132:4040/ncr/search', {
         input: this.searchTerm
         //filterBy: this.filterBy // Include filter criteria in the request
       });

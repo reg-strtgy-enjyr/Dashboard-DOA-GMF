@@ -121,7 +121,7 @@ export class SearchIORComponent implements OnInit {
 
   async fetchDataFromServer() {
     try {
-      const response = await axios.get('https://34.132.47.129/ior/show-all');
+      const response = await axios.get('http://34.87.6.132:4040/ior/show-all');
       if (response.data.status === 200) {
         this.items = response.data.result;
         for (let i = 0; i < this.items.length; i++) {
@@ -143,7 +143,7 @@ export class SearchIORComponent implements OnInit {
 
   async fetchDataBySearchTerm() {
     try {
-      const response = await axios.post('https://34.132.47.129/ior/search', { input: this.searchTerm });
+      const response = await axios.post('http://34.87.6.132:4040/ior/search', { input: this.searchTerm });
       if (response.data.status === 200) {
         this.items = response.data.showProduct;
       } else {
