@@ -27,6 +27,8 @@ export class NavbarComponent implements OnInit {
   accountId: string | null = null;
   role: string | null = null;
 
+  origin = 'http://localhost:4200';
+
   ngOnInit() {
     const token = this.authService.getToken();
     if (token) {
@@ -62,33 +64,33 @@ export class NavbarComponent implements OnInit {
   }
 
   checkRoute() {
-    if (window.location.href != 'https://dashboard-doa-gmf.vercel.app/editIOR' && 
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/detailIOR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/addFollowonIOR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/editFollowonIOR'
+    if (window.location.href != `${this.origin}/editIOR` && 
+        window.location.href != `${this.origin}/detailIOR` &&
+        window.location.href != `${this.origin}/addFollowonIOR` &&
+        window.location.href != `${this.origin}/editFollowonIOR`
       ) {
       sessionStorage.removeItem('id_ior');
     }
-    if (window.location.href != 'https://dashboard-doa-gmf.vercel.app/editFollowonIOR') {
+    if (window.location.href != `${this.origin}/editFollowonIOR`) {
       sessionStorage.removeItem('id_follup_ior');
     }
-    if (window.location.href != 'https://dashboard-doa-gmf.vercel.app/editNCR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/detailNCR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/addReplyNCR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/editReplyNCR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/addResultNCR' &&
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/editResultNCR'
+    if (window.location.href != `${this.origin}/editNCR` &&
+        window.location.href != `${this.origin}/detailNCR` &&
+        window.location.href != `${this.origin}/addReplyNCR` &&
+        window.location.href != `${this.origin}/editReplyNCR` &&
+        window.location.href != `${this.origin}/addResultNCR` &&
+        window.location.href != `${this.origin}/editResultNCR`
       ) {
       sessionStorage.removeItem('ncr_init_id');
     }
-    if (window.location.href != 'https://dashboard-doa-gmf.vercel.app/editReplyNCR') {
+    if (window.location.href != `${this.origin}/editReplyNCR`) {
       sessionStorage.removeItem('id_ncr_reply');
     }
-    if (window.location.href != 'https://dashboard-doa-gmf.vercel.app/editResultNCR') {
+    if (window.location.href != `${this.origin}/editResultNCR`) {
       sessionStorage.removeItem('id_ncr_result');
     }
-    if (window.location.href != 'https://dashboard-doa-gmf.vercel.app/detailPersonnel' && 
-        window.location.href != 'https://dashboard-doa-gmf.vercel.app/editPersonnel'
+    if (window.location.href != `${this.origin}/detailPersonnel` && 
+        window.location.href != `${this.origin}/editPersonnel`
       ) {
       sessionStorage.removeItem('person_id');
     }
