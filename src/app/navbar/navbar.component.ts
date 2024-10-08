@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   accountId: string | null = null;
   role: string | null = null;
 
-  origin = 'http://localhost:4200';
+  origin = 'https://dashboard-doa-gmf.vercel.app';
 
   ngOnInit() {
     const token = this.authService.getToken();
@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    axios.post(`http://34.87.6.132:4040/account/logout`)
+    axios.post(`http://34.46.32.81:4040/account/logout`)
       .then(response => {
         this.authService.removeToken();
         this.role = null;
